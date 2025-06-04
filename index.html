@@ -387,7 +387,7 @@
                     <div id="categoryContainer" class="form-row" style="display: none;">
                         <div class="form-group">
                             <label for="category" class="required">Categoría:</label>
-                            <select id="category" name="category" required>
+                            <select id="category" name="category">
                                 <option value="">Seleccione una categoría</option>
                                 <option value="entretenimiento">Entretenimiento</option>
                                 <option value="tecnologia">Tecnología</option>
@@ -655,10 +655,7 @@
             // Setup specialty validation
             setupSpecialtyValidation();
 
-            // Setup specialty validation
-            setupSpecialtyValidation();
-            
-            // AGREGAR ESTA LÍNEA AL FINAL:
+            // Map URL parameters to form fields
             mapURLParamsToForm();
         });
        
@@ -735,11 +732,14 @@
             const categoryContainer = document.getElementById('categoryContainer');
             const specialtyContainer = document.getElementById('specialtyContainer');
             const brandVisualContainer = document.getElementById('brandVisualContainer');
+            const categorySelect = document.getElementById('category');
            
             // Reset all first
             categoryContainer.style.display = 'none';
             specialtyContainer.style.display = 'none';
             brandVisualContainer.style.display = 'block';
+
+            categorySelect.removeAttribute('required');
            
             // Then show appropriate fields
             if (category === 'comercial' || category === 'kiosco') {
