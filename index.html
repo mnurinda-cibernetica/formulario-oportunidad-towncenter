@@ -769,6 +769,22 @@
             }, 5000);
         }
        
+        // Generate unique ID for the request
+        function generateUniqueId() {
+            // Opción 1: Usar crypto.randomUUID() si está disponible (más moderno)
+            if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+                const uuid = crypto.randomUUID();
+                // Tomar los primeros 4 caracteres del UUID y convertir a mayúsculas
+                return `OP - ${uuid.substring(0, 4).toUpperCase()}`;
+            }
+            
+            // Opción 2: Generador manual usando timestamp + random
+            const timestamp = Date.now().toString(36); // Convertir timestamp a base 36
+            const randomPart = Math.random().toString(36).substring(2, 6); // 4 caracteres aleatorios
+            const combined = (timestamp + randomPart).substring(0, 4).toUpperCase();
+            return `OP - ${combined}`;
+        }
+
         // Form submission handling
         document.getElementById('townCenterForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -795,7 +811,7 @@
             // Build data object for Creatio
             const creatioData = {
                 ABPNombreCliente: contactName,
-                ABPName: "prueba023",
+                ABPName: generateUniqueId(),
                 ABPMetrajeSol: requestedM2,
                 ABPNumeroCelular: mobileNumber,
                 ABPTipoLocal: categoryMapping[category],
