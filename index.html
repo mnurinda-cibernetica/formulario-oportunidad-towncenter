@@ -534,6 +534,97 @@
         // Canal de venta fijo (WhatsApp)
         const salesChannelId = '70392e4b-29c7-42f3-9bba-612f34bef68f';
 
+        // Función para obtener parámetros de la URL
+        function getURLParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                userType: urlParams.get('userType'), // 'corredor' o 'cliente'
+                contactName: urlParams.get('contactName'),
+                contactEmail: urlParams.get('contactEmail'),
+                mobileNumber: urlParams.get('mobileNumber'),
+                requestedM2: urlParams.get('requestedM2'),
+                categoryType: urlParams.get('categoryType'), // 'comercial', 'kiosco', 'consultorio', 'oficina', 'academia'
+                category: urlParams.get('category'), // Para subcategorías comerciales
+                specialty: urlParams.get('specialty') // Para especialidades médicas
+            };
+        }
+
+        // Función para mapear los parámetros URL al formulario
+        function mapURLParamsToForm() {
+            const params = getURLParameters();
+            
+            // Mapear tipo de usuario (Corredor o Cliente)
+            if (params.userType && (params.userType === 'corredor' || params.userType === 'cliente')) {
+                const radioButton = document.querySelector(`input[name="userType"][value="${params.userType}"]`);
+                if (radioButton) {
+                    radioButton.checked = true;
+                    // Actualizar el label del nombre
+                    const nameLabel = document.getElementById('nameLabel');
+                    nameLabel.textContent = params.userType === 'corredor' ? 'Nombre del Corredor:' : 'Nombre del Cliente:';
+                }
+            }
+            
+            // Mapear nombre del contacto
+            if (params.contactName && params.contactName.trim() !== '') {
+                document.getElementById('contactName').value = decodeURIComponent(params.contactName);
+            }
+            
+            // Mapear correo electrónico
+            if (params.contactEmail && params.contactEmail.trim() !== '') {
+                document.getElementById('contactEmail').value = decodeURIComponent(params.contactEmail);
+            }
+            
+            // Mapear número de celular
+            if (params.mobileNumber && params.mobileNumber.trim() !== '') {
+                document.getElementById('mobileNumber').value = params.mobileNumber;
+            }
+            
+            // Mapear metraje solicitado
+            if (params.requestedM2 && params.requestedM2.trim() !== '' && !isNaN(params.requestedM2)) {
+                document.getElementById('requestedM2').value = params.requestedM2;
+            }
+            
+            // Mapear tipo de categoría (comercial, kiosco, consultorio, oficina, academia)
+            if (params.categoryType && ['comercial', 'kiosco', 'consultorio', 'oficina', 'academia'].includes(params.categoryType)) {
+                // Buscar el botón correspondiente y hacer clic en él
+                const categoryButtons = document.querySelectorAll('.category-btn');
+                categoryButtons.forEach(button => {
+                    if (button.getAttribute('onclick').includes(`'${params.categoryType}'`)) {
+                        selectCategory(button, params.categoryType);
+                    }
+                });
+
+                // Mapear subcategoría comercial si aplica
+                if ((params.categoryType === 'comercial' || params.categoryType === 'kiosco') && params.category) {
+                    const validCategories = ['entretenimiento', 'tecnologia', 'restaurantes', 'zapateria', 'ropa_damas', 'ropa_caballeros', 'jugueteria'];
+                    if (validCategories.includes(params.category)) {
+                        // Esperar un momento para que se muestre el select antes de establecer el valor
+                        setTimeout(() => {
+                            const categorySelect = document.getElementById('category');
+                            if (categorySelect) {
+                                categorySelect.value = params.category;
+                            }
+                        }, 100);
+                    }
+                }
+                
+                // Mapear especialidad médica si aplica
+                if (params.categoryType === 'consultorio' && params.specialty) {
+                    const validSpecialties = Object.keys(specialtyMapping);
+                    const decodedSpecialty = decodeURIComponent(params.specialty);
+                    if (validSpecialties.includes(decodedSpecialty)) {
+                        // Esperar un momento para que se muestre el campo antes de establecer el valor
+                        setTimeout(() => {
+                            const specialtyInput = document.getElementById('specialty');
+                            if (specialtyInput) {
+                                specialtyInput.value = decodedSpecialty;
+                            }
+                        }, 100);
+                    }
+                }
+            }
+        }
+
         // Función para convertir fecha al formato de Creatio (ISO 8601)
         function formatDateForCreatio(dateString) {
             const date = new Date(dateString);
@@ -563,6 +654,12 @@
            
             // Setup specialty validation
             setupSpecialtyValidation();
+
+            // Setup specialty validation
+            setupSpecialtyValidation();
+            
+            // AGREGAR ESTA LÍNEA AL FINAL:
+            mapURLParamsToForm();
         });
        
         // Disable weekends in date picker
