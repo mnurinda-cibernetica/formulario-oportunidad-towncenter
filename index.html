@@ -804,6 +804,7 @@
            
             // Get values from form
             const contactName = formData.get('contactName');
+            const contactEmail = formData.get('contactEmail');
             const mobileNumber = formData.get('mobileNumber');
             const requestedM2 = parseInt(formData.get('requestedM2'));
             const userType = formData.get('userType');
@@ -814,6 +815,7 @@
             const creatioData = {
                 ABPNombreCliente: contactName,
                 ABPName: generateUniqueId(),
+                ABPCorreoCliente: contactEmail,
                 ABPMetrajeSol: requestedM2,
                 ABPNumeroCelular: mobileNumber,
                 ABPTipoLocal: categoryMapping[category],
