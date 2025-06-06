@@ -396,6 +396,7 @@
                                 <option value="ropa_damas">Ropa de damas</option>
                                 <option value="ropa_caballeros">Ropa de caballeros</option>
                                 <option value="jugueteria">Juguetería</option>
+                                <option value="N/A">N/A</option>
                             </select>
                         </div>
                     </div>
@@ -455,7 +456,7 @@
                         </div>
                     </div>
                    
-                    <div id="brandVisualContainer" class="form-row">
+                    <!-- <div id="brandVisualContainer" class="form-row">
                         <div class="form-group">
                             <label for="brandVisual">Visual de marca:</label>
                             <div class="file-upload">
@@ -466,7 +467,7 @@
                                 <span id="fileName" style="margin-left: 10px; font-size: 14px;"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
            
@@ -503,7 +504,8 @@
             'zapateria': '52328ade-53be-4506-93e9-f476c97bda9f',
             'ropa_damas': '7b547f0e-26dc-461c-a8dc-fa8406e08c08',
             'ropa_caballeros': '810c357f-4967-41c4-85a9-a0609eccb4a6',
-            'jugueteria': '152e238c-b67f-474d-a15e-9c254f5cf2e0'
+            'jugueteria': '152e238c-b67f-474d-a15e-9c254f5cf2e0',
+            'N/A': 'd6b0118b-083e-4cfd-9531-ee7afd710474'
         };
        
         // Mapeo de especialidades médicas a IDs de Creatio
@@ -731,22 +733,22 @@
             // Show/hide fields based on category
             const categoryContainer = document.getElementById('categoryContainer');
             const specialtyContainer = document.getElementById('specialtyContainer');
-            const brandVisualContainer = document.getElementById('brandVisualContainer');
+            // const brandVisualContainer = document.getElementById('brandVisualContainer');
             const categorySelect = document.getElementById('category');
            
             // Reset all first
             categoryContainer.style.display = 'none';
             specialtyContainer.style.display = 'none';
-            brandVisualContainer.style.display = 'block';
+            // brandVisualContainer.style.display = 'block';
 
             categorySelect.removeAttribute('required');
            
             // Then show appropriate fields
-            if (category === 'comercial' || category === 'kiosco') {
+            if (category === 'comercial') {
                 categoryContainer.style.display = 'flex';
             } else if (category === 'consultorio') {
                 specialtyContainer.style.display = 'flex';
-                brandVisualContainer.style.display = 'none';
+                // brandVisualContainer.style.display = 'none';
             }
         }
        
@@ -816,7 +818,7 @@
                 ABPNumeroCelular: mobileNumber,
                 ABPTipoLocal: categoryMapping[category],
                 ABPTipoContacto: contactTypeMapping[userType],
-                ABPCanalVenta: salesChannelId
+                ABPCanalVenta: salesChannelId,
             };
 
             // Add sales projection if provided (convert to decimal)
@@ -830,7 +832,7 @@
             }
            
             // Add category/specialty if applicable
-            if (category === 'comercial' || category === 'kiosco') {
+            if (category === 'comercial') {
                 const selectedCategory = formData.get('category');
                 if (selectedCategory && subCategoryMapping[selectedCategory]) {
                     creatioData.ABPCategoriaLocal = subCategoryMapping[selectedCategory];
@@ -840,6 +842,9 @@
                 if (selectedSpecialty && specialtyMapping[selectedSpecialty]) {
                     creatioData.ABPCategoriaLocal = specialtyMapping[selectedSpecialty];
                 }
+            }
+            else {
+                creatioData.ABPCategoriaLocal = subCategoryMapping['N/A'];
             }
            
             // Show loading state
