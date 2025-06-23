@@ -839,12 +839,13 @@
                 if (selectedCategory && subCategoryMapping[selectedCategory]) {
                     creatioData.ABPCategoriaLocal = subCategoryMapping[selectedCategory];
                 }
-            } else if (category === 'consultorio') {
-                const selectedSpecialty = formData.get('specialty');
-                if (selectedSpecialty && specialtyMapping[selectedSpecialty]) {
-                    creatioData.ABPCategoriaLocal = specialtyMapping[selectedSpecialty];
-                }
-            }
+            } 
+            // else if (category === 'consultorio') {
+            //     const selectedSpecialty = formData.get('specialty');
+            //     if (selectedSpecialty && specialtyMapping[selectedSpecialty]) {
+            //         creatioData.ABPCategoriaLocal = specialtyMapping[selectedSpecialty];
+            //     }
+            // }
             else {
                 creatioData.ABPCategoriaLocal = subCategoryMapping['N/A'];
             }
