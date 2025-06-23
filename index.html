@@ -393,8 +393,7 @@
                                 <option value="tecnologia">Tecnología</option>
                                 <option value="restaurantes">Restaurantes</option>
                                 <option value="zapateria">Zapatería</option>
-                                <option value="ropa_damas">Ropa de damas</option>
-                                <option value="ropa_caballeros">Ropa de caballeros</option>
+                                <option value="ropa_damas_caballeros">Ropa de Damas y Caballeros</option>
                                 <option value="jugueteria">Juguetería</option>
                                 <option value="N/A">N/A</option>
                             </select>
@@ -502,8 +501,7 @@
             'tecnologia': '7bb1cad0-64a4-4785-a2b0-211232f2f976',
             'restaurantes': 'f21822ce-30e4-4a22-84bf-76a1e38e9dd8',
             'zapateria': '52328ade-53be-4506-93e9-f476c97bda9f',
-            'ropa_damas': '7b547f0e-26dc-461c-a8dc-fa8406e08c08',
-            'ropa_caballeros': '810c357f-4967-41c4-85a9-a0609eccb4a6',
+            'ropa_damas_caballeros': '1bded962-717b-42ce-b0c0-8b7d26c817c2',
             'jugueteria': '152e238c-b67f-474d-a15e-9c254f5cf2e0',
             'N/A': 'd6b0118b-083e-4cfd-9531-ee7afd710474'
         };
@@ -598,7 +596,7 @@
 
                 // Mapear subcategoría comercial si aplica
                 if ((params.categoryType === 'comercial' || params.categoryType === 'kiosco') && params.category) {
-                    const validCategories = ['entretenimiento', 'tecnologia', 'restaurantes', 'zapateria', 'ropa_damas', 'ropa_caballeros', 'jugueteria'];
+                    const validCategories = ['entretenimiento', 'tecnologia', 'restaurantes', 'zapateria', 'ropa_damas_caballeros', 'jugueteria'];
                     if (validCategories.includes(params.category)) {
                         // Esperar un momento para que se muestre el select antes de establecer el valor
                         setTimeout(() => {
@@ -840,12 +838,6 @@
                     creatioData.ABPCategoriaLocal = subCategoryMapping[selectedCategory];
                 }
             } 
-            // else if (category === 'consultorio') {
-            //     const selectedSpecialty = formData.get('specialty');
-            //     if (selectedSpecialty && specialtyMapping[selectedSpecialty]) {
-            //         creatioData.ABPCategoriaLocal = specialtyMapping[selectedSpecialty];
-            //     }
-            // }
             else {
                 creatioData.ABPCategoriaLocal = subCategoryMapping['N/A'];
             }
